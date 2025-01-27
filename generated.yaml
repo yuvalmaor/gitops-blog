@@ -762,7 +762,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: your-app-service
+  name: frontend-service
   namespace: default
 spec:
   selector:
@@ -770,7 +770,7 @@ spec:
   ports:
     - port: 80
       targetPort: 80
-  type: LoadBalancer  # or ClusterIP, depending on your use case
+  type: ClusterIP  # or ClusterIP, depending on your use case
 ---
 # Source: blogchart/templates/backend.yaml
 apiVersion: apps/v1
