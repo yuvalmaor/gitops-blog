@@ -814,7 +814,7 @@ spec:
     spec:
       containers:
         - name: your-app
-          image: "docker.io/ym5533/blogfrontend:0.1.7"  # Replace with your private image
+          image: "docker.io/ym5533/blogfrontend:0.1.8"  # Replace with your private image
           ports:
             - containerPort: 80
       imagePullSecrets:
