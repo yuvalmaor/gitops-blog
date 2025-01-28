@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontendservice
   namespace: dev
 spec:
   selector:
