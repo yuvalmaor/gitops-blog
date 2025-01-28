@@ -818,7 +818,7 @@ spec:
           ports:
             - containerPort: 80
       imagePullSecrets:
-        - name:
+        - name: registry-secret
 ---
 # Source: blogchart/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
