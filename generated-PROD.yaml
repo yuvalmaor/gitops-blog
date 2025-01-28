@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: "docker.io/ym5533/blogfrontend:0.1.12"
+          image: "docker.io/ym5533/blogfrontend:0.1.13"
           ports:
             - containerPort: 80
       imagePullSecrets:
