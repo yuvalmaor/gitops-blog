@@ -800,25 +800,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: your-app
+  name: frontend-app
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: your-app
+      app: frontend-app
   template:
     metadata:
       labels:
-        app: your-app
+        app: frontend-app
     spec:
       containers:
-        - name: your-app
-          image: "docker.io/ym5533/blogfrontend:0.1.8"  # Replace with your private image
+        - name: frontend-container
+          image: "docker.io/ym5533/blogfrontend:0.1.8"
           ports:
             - containerPort: 80
       imagePullSecrets:
-        - name: registry-secret  # Reference to the secret created earlier
+        - name:
 ---
 # Source: blogchart/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
