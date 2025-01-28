@@ -1,0 +1,106 @@
+---
+# Source: blogchart/templates/backend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: default
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP  # or ClusterIP, depending on your use case
+---
+# Source: blogchart/templates/frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: default
+spec:
+  selector:
+    app: frontend-app
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP  # or ClusterIP, depending on your use case
+---
+# Source: blogchart/templates/backend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: "docker.io/ym53/blogbackend:0.1.1"  # Replace with your private image
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-registry-secret  # Reference to the secret created earlier
+---
+# Source: blogchart/templates/frontend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app-deployhment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-app
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+        - name: frontend-container
+          image: "docker.io/ym5533/blogfrontend:0.1.8"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: registry-secret
+---
+# Source: blogchart/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, Authorization"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - blog.yuvallab.xyz
+    secretName: app-tls-secret
+  rules:
+  - host: blog.yuvallab.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 80
+
